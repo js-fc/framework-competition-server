@@ -3,10 +3,9 @@ const fs = require('fs')
 class UsersService {
   getUsers() {
     return new Promise((res, rej) => {
-      fs.readFile('data.json', (err, data) => {
+      fs.readFile('dist/data.json', (err, data) => {
         if (err) {
-        //   return res(false)
-           return res({name: "Владислав"})
+           return res(false)
         }
         return res(JSON.parse(data.toString()))
       })
