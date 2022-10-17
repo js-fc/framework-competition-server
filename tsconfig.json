@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
-      "strict": false,
-      "alwaysStrict": false,
+      "noImplicitUseStrict": true,
       "target": "es6",
       "module": "commonjs",
       "outDir": "dist",

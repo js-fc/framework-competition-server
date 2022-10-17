@@ -88,4 +88,4 @@ class UsersController {
   }
 }
 
-module.exports = new UsersController()
+export = new UsersController()

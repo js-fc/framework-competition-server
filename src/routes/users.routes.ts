@@ -1,9 +1,7 @@
-import * as express from 'express';
-
-export const router = express.Router(),
-
-UserController = require('../controllers/users.controller'),
-UsersService = require('../services/users.service')
+const express = require('express'),
+   router = express.Router(),
+   UserController = require('../controllers/users.controller'),
+   UsersService = require('../services/users.service')
 
 router.use(async (req, res, next) => {
   let data = await UsersService.getUsers()
@@ -23,3 +21,5 @@ router
   .post(UserController.createUser)
   .put(UserController.updateUser)
   .delete(UserController.deleteUser)
+
+export = router

@@ -1,8 +1,8 @@
-import * as express from 'express';
-const app: express.Application = express();
+import { Express, Router, Request, Response } from 'express'
 
-import {routes} from './routes/index';
-
+const express = require('express'),
+   app: Express = express(),
+   routes: Router = require('./routes/index')
 
 const host = '127.0.0.1'
 const port = 7000

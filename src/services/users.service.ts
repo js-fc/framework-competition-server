@@ -1,14 +1,14 @@
-import * as fs from 'fs';
-
+const fs = require('fs')
 
 class UsersService {
   getUsers() {
     return new Promise((res, rej) => {
       fs.readFile('data.json', (err, data) => {
         if (err) {
-          return res(false)
+        //   return res(false)
+           return res({name: "Владислав"})
         }
-        return res(JSON.parse(data))
+        return res(JSON.parse(data.toString()))
       })
     })
   }
@@ -56,4 +56,4 @@ class UsersService {
   }
 }
 
-module.exports = new UsersService()
+export = new UsersService()
