@@ -1,6 +1,6 @@
 const fs = require('fs'), nano = require('../couch-db/couch'), spawn = require('child_process').spawn;
-class UsersService {
-    getUsers() {
+class HostsService {
+    getHosts() {
         return new Promise((res, rej) => {
             //nano.db.list().then(result => res(result), err => res(err))
             //res(db)
@@ -11,14 +11,9 @@ class UsersService {
                 // })
                 return res(hostList);
             }).catch(err => res(err));
-            // db.partitionedList('host', { include_docs: true}).then(hostList =>
-            //   {
-            //     // hostList.forEach(host => {
-            //     //   console.log(host)
-            //     // })
-            //     return res(hostList)
-            //   }).catch( err => res(err))
-            //db.get('e7e673a901d10dfc1f3bdd670d0afbfa').then(result => res(result)).catch(err => res(err))
+            // db.get('e7e673a901d10dfc1f3bdd670d0afbfa').then(
+            //   result => res(result)
+            // ).catch(err => res(err))
             // const progToOpen = spawn('C:\\windows\\notepad.exe', ["D:/1.txt"]);
             //const progToOpen = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',["https://js-fc.github.io/js-framework-competition/all.html"]);
             // fs.readFile('dist/data.json', (err, data) => {
@@ -29,7 +24,7 @@ class UsersService {
             // })
         });
     }
-    createUser(data) {
+    createHost(data) {
         return new Promise((res, rej) => {
             fs.writeFile('data.json', JSON.stringify(data), (err, response) => {
                 if (err)
@@ -38,7 +33,7 @@ class UsersService {
             });
         });
     }
-    updateUser(data) {
+    updateHost(data) {
         return new Promise((res, rej) => {
             fs.writeFile('data.json', JSON.stringify(data), (err, response) => {
                 if (err)
@@ -47,7 +42,7 @@ class UsersService {
             });
         });
     }
-    deleteUser(data) {
+    deleteHost(data) {
         return new Promise((res, rej) => {
             fs.writeFile('data.json', JSON.stringify(data), (err, response) => {
                 if (err)
@@ -57,5 +52,5 @@ class UsersService {
         });
     }
 }
-module.exports = new UsersService();
-//# sourceMappingURL=users.service.js.map
+module.exports = new HostsService();
+//# sourceMappingURL=hosts.service.js.map
