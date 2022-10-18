@@ -2,20 +2,14 @@ const fs = require('fs'),
   nano = require('../couch-db/couch'),
   spawn = require('child_process').spawn
 
-class HostsService {
-  getHosts() {
+class StartService {
+  getStart() {
     return new Promise((res, rej) => {
 
       //nano.db.list().then(result => res(result), err => res(err))
       //res(db)
       const db = nano.use('frameworks')
-      db.partitionedList('host').then(hostList =>
-        {
-          // hostList.forEach(host => {
-          //   console.log(host)
-          // })
-          return res(hostList)
-        }).catch( err => res(err))
+      const progToOpen = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',["https://js-fc.github.io/js-framework-competition/all.html"]);
 
       // db.get('e7e673a901d10dfc1f3bdd670d0afbfa').then(
       //   result => res(result)
@@ -75,4 +69,4 @@ class HostsService {
   }
 }
 
-export = new HostsService()
+export = new StartService()
