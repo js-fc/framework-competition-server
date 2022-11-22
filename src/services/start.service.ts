@@ -9,8 +9,8 @@ class StartService {
       //nano.db.list().then(result => res(result), err => res(err))
       //res(db)
       const db = nano.use('frameworks')
-      const progToOpen = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',["https://js-fc.github.io/js-framework-competition/all.html"]);
-
+      const chrome = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',["https://js-fc.github.io/js-framework-competition/all.html"]);
+      chrome.
       // db.get('e7e673a901d10dfc1f3bdd670d0afbfa').then(
       //   result => res(result)
       // ).catch(err => res(err))
