@@ -3,23 +3,23 @@ const FrameworksService = require('../services/frameworks.service')
 class FrameworksController {
   getFrameworks(req, res) {
     if (req.query.id) {
-      if (req.hosts.hasOwnProperty(req.query.id))
+      if (req.frameworks.hasOwnProperty(req.query.id))
         return res
           .status(200)
-          .send({ data: req.hosts[req.query.id] })
+          .send({ data: req.frameworks[req.query.id] })
       else
         return res
           .status(404)
           .send({ message: 'Host not found.' })
-    } else if (!req.hosts)
+    } else if (!req.frameworks)
       return res
         .status(404)
         .send({ message: 'Frameworks not found.' })
 
-    return res.status(200).send({ data: req.hosts })
+    return res.status(200).send({ data: req.frameworks })
   }
 
-  async createHost(req, res) {
+  async createFramework(req, res) {
     if (req.body.user && req.body.user.id) {
       if (req.users.hasOwnProperty(req.body.user.id))
         return res
@@ -41,7 +41,7 @@ class FrameworksController {
         .send({ message: 'Bad request.' })
   }
 
-  async updateHost(req, res) {
+  async updateFramework(req, res) {
     if (req.body.user && req.body.user.id) {
       if (!req.users.hasOwnProperty(req.body.user.id))
         return res
@@ -63,7 +63,7 @@ class FrameworksController {
         .send({ message: 'Bad request.' })
   }
 
-  async deleteHost(req, res) {
+  async deleteFramework(req, res) {
     if (req.query.id) {
       if (req.users.hasOwnProperty(req.query.id)) {
         delete req.users[req.query.id]
