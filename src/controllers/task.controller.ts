@@ -1,33 +1,21 @@
-const TasksService = require('../services/tasks.service'),
-      SSEService = require('../services/sse.service')
+const TaskService = require('../services/task.service')
 
-class TasksController {
-  getTasks(req, res) {
+class TaskController {
+  getTask(req, res) {
     if (req.query.id) {
-      if (req.tasks.hasOwnProperty(req.query.id))
+      if (req.task.hasOwnProperty(req.query.id))
         return res
           .status(200)
-          .send({ data: req.tasks[req.query.id] })
+          .send({ data: req.task[req.query.id] })
       else
         return res
           .status(404)
           .send({ message: 'Host not found.' })
-    } else if (!req.tasks)
+    } else if (!req.task)
       return res
         .status(404)
-        .send({ message: 'Tasks not found.' })
-
-    // req.tasks.forEach(element => {
-
-    // });
-
-    req.tasks.rows.forEach(task => {
-      const doc = task.doc;
-      SSEService.constructor.clients.forEach(client => {
-        SSEService.sendToClientMessage(client, JSON.stringify(doc))
-      })
-    })
-    res.status(200).send(req.tasks)
+        .send({ message: 'Task not found.' })
+    res.status(200).send(req.params.taskId)
   }
 
   async createTask(req, res) {
@@ -39,7 +27,7 @@ class TasksController {
 
       req.users[req.body.user.id] = req.body.user
 
-      let result = await TasksService.createUser(req.users)
+      let result = await TaskService.createUser(req.users)
 
       if (result) return res.status(200).send(result)
       else
@@ -61,7 +49,7 @@ class TasksController {
 
       req.users[req.body.user.id] = req.body.user
 
-      let result = await TasksService.updateUser(req.users)
+      let result = await TaskService.updateUser(req.users)
 
       if (result) return res.status(200).send(result)
       else
@@ -79,7 +67,7 @@ class TasksController {
       if (req.users.hasOwnProperty(req.query.id)) {
         delete req.users[req.query.id]
 
-        let result = await TasksService.deleteUser(
+        let result = await TaskService.deleteUser(
           req.users
         )
 
@@ -99,4 +87,4 @@ class TasksController {
   }
 }
 
-export = new TasksController()
+export = new TaskController()

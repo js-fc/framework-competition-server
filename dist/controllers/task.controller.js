@@ -7,32 +7,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const TasksService = require('../services/tasks.service'), SSEService = require('../services/sse.service');
-class TasksController {
-    getTasks(req, res) {
+const TaskService = require('../services/task.service');
+class TaskController {
+    getTask(req, res) {
         if (req.query.id) {
-            if (req.tasks.hasOwnProperty(req.query.id))
+            if (req.task.hasOwnProperty(req.query.id))
                 return res
                     .status(200)
-                    .send({ data: req.tasks[req.query.id] });
+                    .send({ data: req.task[req.query.id] });
             else
                 return res
                     .status(404)
                     .send({ message: 'Host not found.' });
         }
-        else if (!req.tasks)
+        else if (!req.task)
             return res
                 .status(404)
-                .send({ message: 'Tasks not found.' });
-        // req.tasks.forEach(element => {
-        // });
-        req.tasks.rows.forEach(task => {
-            const doc = task.doc;
-            SSEService.constructor.clients.forEach(client => {
-                SSEService.sendToClientMessage(client, JSON.stringify(doc));
-            });
-        });
-        res.status(200).send(req.tasks);
+                .send({ message: 'Task not found.' });
+        res.status(200).send(req.params.taskId);
     }
     createTask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -42,7 +34,7 @@ class TasksController {
                         .status(409)
                         .send({ message: 'User already exists.' });
                 req.users[req.body.user.id] = req.body.user;
-                let result = yield TasksService.createUser(req.users);
+                let result = yield TaskService.createUser(req.users);
                 if (result)
                     return res.status(200).send(result);
                 else
@@ -64,7 +56,7 @@ class TasksController {
                         .status(404)
                         .send({ message: 'User not found.' });
                 req.users[req.body.user.id] = req.body.user;
-                let result = yield TasksService.updateUser(req.users);
+                let result = yield TaskService.updateUser(req.users);
                 if (result)
                     return res.status(200).send(result);
                 else
@@ -83,7 +75,7 @@ class TasksController {
             if (req.query.id) {
                 if (req.users.hasOwnProperty(req.query.id)) {
                     delete req.users[req.query.id];
-                    let result = yield TasksService.deleteUser(req.users);
+                    let result = yield TaskService.deleteUser(req.users);
                     if (result)
                         return res.status(200).send(result);
                     else
@@ -103,5 +95,5 @@ class TasksController {
         });
     }
 }
-module.exports = new TasksController();
-//# sourceMappingURL=tasks.controller.js.map
+module.exports = new TaskController();
+//# sourceMappingURL=task.controller.js.map

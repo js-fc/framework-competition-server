@@ -12,6 +12,27 @@ class SSEService {
     return SSEService.clients;
   }
 
+  sendToAllMessage(message: string, id: string) {
+    SSEService.clients.forEach(client => {
+      const data = `data: ${message}\nid: ${SSEService.getUlid()}\n\n`;
+      client.res.write(data);
+    });
+  }
+
+  sendToAllEventMessage(event: string, message: string, id: string) {
+    SSEService.clients.forEach(client => {
+      const data = `event: ${event}\ndata: ${message}\nid: ${SSEService.getUlid()}\n\n`;
+      client.res.write(data);
+    });
+  }
+
+  sendToAllRetry(message: string, id: string) {
+    SSEService.clients.forEach(client => {
+      const data = `retry: ${message}\nid: ${SSEService.getUlid()}\n\n`;
+      client.res.write(data);
+    });
+  }
+
   sendToAll(message: string, id: string) {
     SSEService.clients.forEach(client => {
       const data = `data: ${message}\nid: ${SSEService.getUlid()}\n\n`;
@@ -19,9 +40,19 @@ class SSEService {
     });
   }
 
-  sendToClient(client: Client, message: string, id: any) {
-      const data = `data: ${message}\nid: ${id}\n\n`;
+  sendToClientMessage(client: Client, message: string) {
+      const data = `data: ${message}\nid: ${SSEService.getUlid()}\n\n`;
       client.res.write(data);
+  }
+
+  sendToClientEventMessage(client: Client, event: string, message: string) {
+      const data = `event: ${event}\ndata: ${message}\nid: ${SSEService.getUlid()}\n\n`;
+      client.res.write(data);
+  }
+
+  sendToClientRetry(client: Client, message: string) {
+    const data = `retry: ${message}\nid: ${SSEService.getUlid()}\n\n`;
+    client.res.write(data);
   }
 
   createClient(response: object) {

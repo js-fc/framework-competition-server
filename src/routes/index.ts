@@ -4,6 +4,7 @@ const express = require('express'),
     hostsRoutes = require('./hosts.routes'),
     startRoutes = require('./start.routes'),
     tasksRoutes = require('./tasks.routes'),
+    taskRoutes = require('./task.routes'),
     frameworksRoutes = require('./frameworks.routes')
 
 router.use('/users', usersRoutes)
@@ -11,5 +12,6 @@ router.use('/hosts', hostsRoutes)
 router.use('/start', startRoutes)
 router.use('/frameworks', frameworksRoutes)
 router.use('/tasks', tasksRoutes)
+router.use('/task', taskRoutes)
 
 export = router
