@@ -3,7 +3,7 @@ class FrameworksService {
     getFrameworks() {
         return new Promise((res, rej) => {
             const db = nano.use('frameworks');
-            db.partitionedList('framework').then(frameworkList => {
+            db.partitionedList('framework', { include_docs: true }).then(frameworkList => {
                 return res(frameworkList);
             }).catch(err => res(err));
         });

@@ -16,7 +16,7 @@ class FrameworksController {
         .status(404)
         .send({ message: 'Frameworks not found.' })
 
-    return res.status(200).send({ data: req.frameworks })
+    return res.status(200).send(req.frameworks)
   }
 
   async createFramework(req, res) {
