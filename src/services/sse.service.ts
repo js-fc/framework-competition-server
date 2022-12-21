@@ -2,7 +2,7 @@ import ULID = require('ulid')
 import Client = require('../helpers/client')
 
 class SSEService {
-  static  clients = [];
+  static  clients = new Map();
 
   static getUlid() {
     return ULID.ulid();
@@ -10,6 +10,10 @@ class SSEService {
 
   static getClients() {
     return SSEService.clients;
+  }
+
+  static getClient(clientId) {
+    return SSEService.clients.get(clientId);
   }
 
   sendToAllMessage(message: string, id: string) {
@@ -61,16 +65,16 @@ class SSEService {
 
   newClient(response: object) {
     const client = new Client(response, SSEService.getUlid())
-    SSEService.clients.push(client)
+    SSEService.clients.set(client.id, client);
     return client;
   }
 
   addClient(client: Client) {
-    SSEService.clients.push(client)
+    SSEService.clients.set(client.id, client);
   }
 
   deleteClient(client: Client) {
-    SSEService.clients = SSEService.clients.filter(item => item.id !== client.id)
+    SSEService.clients.delete(client.id);
   }
 }
 

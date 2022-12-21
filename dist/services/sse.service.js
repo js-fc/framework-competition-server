@@ -7,6 +7,9 @@ class SSEService {
     static getClients() {
         return SSEService.clients;
     }
+    static getClient(clientId) {
+        return SSEService.clients.get(clientId);
+    }
     sendToAllMessage(message, id) {
         SSEService.clients.forEach(client => {
             const data = `data: ${message}\nid: ${SSEService.getUlid()}\n\n`;
@@ -48,16 +51,16 @@ class SSEService {
     }
     newClient(response) {
         const client = new Client(response, SSEService.getUlid());
-        SSEService.clients.push(client);
+        SSEService.clients.set(client.id, client);
         return client;
     }
     addClient(client) {
-        SSEService.clients.push(client);
+        SSEService.clients.set(client.id, client);
     }
     deleteClient(client) {
-        SSEService.clients = SSEService.clients.filter(item => item.id !== client.id);
+        SSEService.clients.delete(client.id);
     }
 }
-SSEService.clients = [];
+SSEService.clients = new Map();
 module.exports = new SSEService();
 //# sourceMappingURL=sse.service.js.map

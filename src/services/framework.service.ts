@@ -5,8 +5,8 @@ class FrameworkService {
   getFramework(req) {
     return new Promise((res, rej) => {
       const db = nano.use('frameworks')
-      const frameworkUlid = req.params.frameworkId;
-       db.get(`framework:${frameworkUlid}`).then(task =>
+      const frameworkUlid = req.params.frameworkId
+      db.get(`framework:${frameworkUlid}`).then(task =>
         {
           return res(task)
         }).catch( err => res(err))
