@@ -29,9 +29,13 @@ class ResultController {
     createResult(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield ResultService.createResult(req.body, req.params.resultId, req.params.frameworkId);
-            const client = SSEService.getClient(req.params.resultId);
-            SSEService.sendToClientEventMessage(client, 'result', JSON.stringify(req.body));
-            return res.status(200).send(result);
+            // const client: Client = SSEService.constructor.getClient(req.params.resultId)
+            // const clients = SSEService.constructor.getClients()
+            // let b = clients.get('01')
+            // SSEService.sendToClientEventMessage(b, 'task1', b.id)
+            const clients = SSEService.constructor.getClient(req.params.resultId);
+            SSEService.sendToClientEventMessage(clients, 'task2', clients.id);
+            return res.status(200).send({ a: clients.id });
             //return res.status(200).send(result)
             if (req.body.user && req.body.user.id) {
                 if (req.users.hasOwnProperty(req.body.user.id))

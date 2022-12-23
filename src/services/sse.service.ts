@@ -64,7 +64,8 @@ class SSEService {
   }
 
   newClient(response: object) {
-    const client = new Client(response, SSEService.getUlid())
+    // const client = new Client(response, SSEService.getUlid())
+    const client = new Client(response, '01')
     SSEService.clients.set(client.id, client);
     return client;
   }

@@ -16,6 +16,12 @@ class SSEController {
     SSEService.sendToClientRetry(client, '5000')
 
     SSEService.sendToClientEventMessage(client, 'hello', 'Hello, friend')
+    SSEService.sendToClientEventMessage(client, 'task', client.id)
+
+    const clients = SSEService.constructor.getClients()
+    let b = clients.get(client.id)
+
+    SSEService.sendToClientEventMessage(client, 'task1', b.id)
 
     request.on('close', () => {
       console.log(`${client.id} Connection closed`);

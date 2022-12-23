@@ -24,11 +24,15 @@ class ResultController {
   async createResult(req, res) {
     let result = await ResultService.createResult(req.body, req.params.resultId, req.params.frameworkId);
 
-    const client: Client = SSEService.getClient(req.params.resultId)
+    // const client: Client = SSEService.constructor.getClient(req.params.resultId)
+    // const clients = SSEService.constructor.getClients()
+    // let b = clients.get('01')
 
-    SSEService.sendToClientEventMessage(client, 'result', JSON.stringify(req.body))
+    // SSEService.sendToClientEventMessage(b, 'task1', b.id)
+    const clients = SSEService.constructor.getClient(req.params.resultId)
 
-    return res.status(200).send(result)
+    SSEService.sendToClientEventMessage(clients, 'result', clients.id)
+    return res.status(200).send({a: clients.id})
 
     //return res.status(200).send(result)
     if (req.body.user && req.body.user.id) {
