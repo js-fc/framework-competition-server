@@ -1,4 +1,4 @@
-import { Express, Router, Request, Response } from 'express'
+import type { Express, Router, Request, Response } from 'express'
 
 const express = require('express'),
    app: Express = express(),
