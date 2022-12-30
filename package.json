@@ -16,6 +16,7 @@
     },
     "homepage": "https://github.com/js-fc/framework-competition-server#readme",
     "dependencies": {
+        "@types/node": "^18.11.18",
         "cors": "^2.8.5",
         "express": "^4.17.4",
         "fs": "^0.0.1-security",

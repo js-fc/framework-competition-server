@@ -1,9 +1,16 @@
+import type { Router } from "express";
+import { Request, Response} from "express";
+
+interface UserRequest extends Request {
+  users: any;
+}
+
 const express = require('express'),
-   router = express.Router(),
+   router: Router = express.Router(),
    UserController = require('../controllers/users.controller'),
    UsersService = require('../services/users.service')
 
-router.use(async (req, res, next) => {
+router.use(async (req: UserRequest, res, next) => {
   let data = await UsersService.getUsers()
 
   if (data) {

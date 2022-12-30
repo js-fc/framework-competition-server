@@ -34,7 +34,7 @@ class ResultController {
             // let b = clients.get('01')
             // SSEService.sendToClientEventMessage(b, 'task1', b.id)
             const clients = SSEService.constructor.getClient(req.params.resultId);
-            SSEService.sendToClientEventMessage(clients, 'task2', clients.id);
+            SSEService.sendToClientEventMessage(clients, 'result', clients.id);
             return res.status(200).send({ a: clients.id });
             //return res.status(200).send(result)
             if (req.body.user && req.body.user.id) {

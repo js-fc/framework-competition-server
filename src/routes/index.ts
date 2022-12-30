@@ -1,5 +1,7 @@
+import type { Router } from "express";
+
 const express = require('express'),
-    router = express.Router(),
+    router: Router = express.Router(),
     usersRoutes = require('./users.routes'),
     hostsRoutes = require('./hosts.routes'),
     startRoutes = require('./start.routes'),

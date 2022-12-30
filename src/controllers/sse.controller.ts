@@ -1,8 +1,9 @@
 const SSEService = require('../services/sse.service')
+import { IncomingMessage, ServerResponse } from 'http'
 import Client = require('../helpers/client')
 
 class SSEController {
-  async getSSE(request, response) {
+  async getSSE(request: IncomingMessage, response: ServerResponse) {
 
     const headers = {
       'Content-Type': 'text/event-stream',
