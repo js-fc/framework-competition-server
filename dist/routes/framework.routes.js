@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const express = require('express'), router = express.Router(), FrameworkController = require('../controllers/framework.controller'), FrameworkService = require('../services/framework.service');
 router.use((req, res, next) => __awaiter(this, void 0, void 0, function* () {
     // let data = await FrameworkService.getFramework(req)
-    let data = req.params;
-    if (data) {
-        req.framework = data;
-        next();
-    }
-    else
-        return res
-            .status(500)
-            .send({ message: 'Error while getting framework' });
+    // let data = req.params;
+    next();
+    // if (data) {
+    //   req.framework = data
+    //   next()
+    // } else
+    //   return res
+    //     .status(500)
+    //     .send({ message: 'Error while getting framework' })
 }));
 router
     .route('/:frameworkId')

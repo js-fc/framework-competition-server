@@ -1,6 +1,8 @@
 const SSEService = require('../services/sse.service')
+const SSEHostService = require('../services/sse.host.service')
 import { IncomingMessage, ServerResponse } from 'http'
 import Client = require('../helpers/client')
+import taskQueue = require('../queue/task-queue')
 
 class SSEController {
   async getSSE(request: IncomingMessage, response: ServerResponse) {
@@ -17,12 +19,29 @@ class SSEController {
     SSEService.sendToClientRetry(client, '5000')
 
     SSEService.sendToClientEventMessage(client, 'hello', 'Hello, friend')
-    SSEService.sendToClientEventMessage(client, 'task', client.id)
+    SSEService.sendToClientEventMessage(client, 'test', client.id)
 
     const clients = SSEService.constructor.getClients()
     let b = clients.get(client.id)
 
-    SSEService.sendToClientEventMessage(client, 'task1', b.id)
+    SSEService.constructor.createTest(client.id) // Создаем тест
+
+    SSEService.constructor.getFrameworks().then( result => {
+      result.rows.forEach(framework => {
+        // console.log(JSON.stringify(framework))
+        taskQueue.push(`${client.id}:${framework.id}`)
+      });
+    }).then( () =>
+      taskQueue.forEach(task => {
+          SSEService.sendToClientEventMessage(client, 'task', task)
+          SSEHostService.constructor.newTest()
+      })
+    )
+
+
+    taskQueue.forEach(framework => {
+      SSEService.sendToClientEventMessage(client, 'framework', framework)
+    })
 
     request.on('close', () => {
       console.log(`${client.id} Connection closed`);

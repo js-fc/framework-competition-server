@@ -11,6 +11,7 @@ const FrameworkService = require('../services/framework.service');
 class FrameworkController {
     getFramework(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            req.framework = yield FrameworkService.getFramework(req);
             if (req.query.id) {
                 if (req.Framework.hasOwnProperty(req.query.id))
                     return res
@@ -25,9 +26,6 @@ class FrameworkController {
                 return res
                     .status(404)
                     .send({ message: 'Framework not found.' });
-            let data = yield FrameworkService.getFramework(req);
-            //let data= req.params
-            req.framework = data;
             return res.status(200).send(req.framework);
         });
     }

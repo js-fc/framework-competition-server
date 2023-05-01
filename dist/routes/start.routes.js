@@ -7,9 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const express = require('express'), router = express.Router(), StartController = require('../controllers/start.controller'), StartService = require('../services/start.service');
+const express = require('express'), router = express.Router(), StartController = require('../controllers/start.controller'), StartService = require('../services/start.service'), sseClient = require('../helpers/sse-client');
 router.use((req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    let data = yield StartService.getStart();
+    //let data = await StartService.getStart()
+    const data = { a: 1 };
+    sseClient.Init();
     if (data) {
         req.start = data;
         next();

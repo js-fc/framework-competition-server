@@ -4,13 +4,9 @@ class FrameworkService {
         return new Promise((res, rej) => {
             const db = nano.use('frameworks');
             const frameworkUlid = req.params.frameworkId;
-            db.get(`framework:${frameworkUlid}`).then(task => {
-                return res(task);
+            db.get(`framework:${frameworkUlid}`).then(framework => {
+                return res(framework);
             }).catch(err => res(err));
-            // db.partitionedList('framework', { include_docs: true }).then( frameworkList =>
-            //   {
-            //     return res(frameworkList)
-            //   }).catch( err => res(err))
         });
     }
     createFramework(data) {

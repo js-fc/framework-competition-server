@@ -5,15 +5,15 @@ const express = require('express'),
 
 router.use(async (req, res, next) => {
   // let data = await FrameworkService.getFramework(req)
-  let data = req.params;
-
-  if (data) {
-    req.framework = data
-    next()
-  } else
-    return res
-      .status(500)
-      .send({ message: 'Error while getting framework' })
+  // let data = req.params;
+  next()
+  // if (data) {
+  //   req.framework = data
+  //   next()
+  // } else
+  //   return res
+  //     .status(500)
+  //     .send({ message: 'Error while getting framework' })
 })
 
 router

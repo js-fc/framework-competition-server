@@ -1,0 +1,1 @@
+{"version":3,"file":"host.js","sourceRoot":"","sources":["../../src/helpers/host.ts"],"names":[],"mappings":"AAAA,MAAM,IAAI;IAIR,YAAY,QAAa,EAAE,EAAU,EAAE,OAAgB,KAAK;QAC1D,IAAI,CAAC,GAAG,GAAG,QAAQ,CAAC;QACpB,IAAI,CAAC,EAAE,GAAG,EAAE,CAAC;QACb,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACnB,CAAC;CACF;AAED,iBAAS,IAAI,CAAA"}

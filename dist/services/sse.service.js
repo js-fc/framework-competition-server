@@ -1,5 +1,15 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const ULID = require("ulid");
 const Client = require("../helpers/client");
+const nano = require('../couch-db/couch');
 class SSEService {
     static getUlid() {
         return ULID.ulid();
@@ -9,6 +19,21 @@ class SSEService {
     }
     static getClient(clientId) {
         return SSEService.clients.get(clientId);
+    }
+    static createTest(clientId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const db = nano.use('frameworks');
+            const doc = { _id: `test:${clientId}`, date: (new Date).toISOString() };
+            yield db.insert(doc);
+        });
+    }
+    static getFrameworks() {
+        return new Promise((res, rej) => {
+            const db = nano.use('frameworks');
+            db.partitionedList('framework', { include_docs: true }).then(frameworkList => {
+                return res(frameworkList);
+            }).catch(err => res(err));
+        });
     }
     sendToAllMessage(message, id) {
         SSEService.clients.forEach(client => {
@@ -50,8 +75,8 @@ class SSEService {
         return new Client(response, SSEService.getUlid());
     }
     newClient(response) {
-        // const client = new Client(response, SSEService.getUlid())
-        const client = new Client(response, '01');
+        const client = new Client(response, SSEService.getUlid());
+        // const client = new Client(response, '01')
         SSEService.clients.set(client.id, client);
         return client;
     }

@@ -6,7 +6,10 @@ const express = require('express'),
     hostsRoutes = require('./hosts.routes'),
     startRoutes = require('./start.routes'),
     tasksRoutes = require('./tasks.routes'),
+    testsRoutes = require('./tests.routes'),
     taskRoutes = require('./task.routes'),
+
+    testRoutes = require('./test.routes'),
     frameworksRoutes = require('./frameworks.routes'),
     frameworkRoutes = require('./framework.routes'),
     resultRoutes = require('./result.routes')
@@ -17,6 +20,8 @@ router.use('/start', startRoutes)
 router.use('/frameworks', frameworksRoutes)
 router.use('/framework', frameworkRoutes)
 router.use('/tasks', tasksRoutes)
+router.use('/tests', testsRoutes)
+router.use('/test', testRoutes)
 router.use('/task', taskRoutes)
 router.use('/result', resultRoutes)
 

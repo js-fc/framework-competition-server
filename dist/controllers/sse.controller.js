@@ -8,6 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const SSEService = require('../services/sse.service');
+const SSEHostService = require('../services/sse.host.service');
+const taskQueue = require("../queue/task-queue");
 class SSEController {
     getSSE(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -20,10 +22,22 @@ class SSEController {
             const client = SSEService.newClient(response);
             SSEService.sendToClientRetry(client, '5000');
             SSEService.sendToClientEventMessage(client, 'hello', 'Hello, friend');
-            SSEService.sendToClientEventMessage(client, 'task', client.id);
+            SSEService.sendToClientEventMessage(client, 'test', client.id);
             const clients = SSEService.constructor.getClients();
             let b = clients.get(client.id);
-            SSEService.sendToClientEventMessage(client, 'task1', b.id);
+            SSEService.constructor.createTest(client.id); // Создаем тест
+            SSEService.constructor.getFrameworks().then(result => {
+                result.rows.forEach(framework => {
+                    // console.log(JSON.stringify(framework))
+                    taskQueue.push(`${client.id}:${framework.id}`);
+                });
+            }).then(() => taskQueue.forEach(task => {
+                SSEService.sendToClientEventMessage(client, 'task', task);
+                SSEHostService.constructor.newTest();
+            }));
+            taskQueue.forEach(framework => {
+                SSEService.sendToClientEventMessage(client, 'framework', framework);
+            });
             request.on('close', () => {
                 console.log(`${client.id} Connection closed`);
                 SSEService.deleteClient(client);

@@ -1,6 +1,9 @@
 import ULID = require('ulid')
 import Client = require('../helpers/client')
 
+
+const nano = require('../couch-db/couch')
+
 class SSEService {
   static  clients = new Map();
 
@@ -14,6 +17,22 @@ class SSEService {
 
   static getClient(clientId) {
     return SSEService.clients.get(clientId);
+  }
+
+  static async createTest(clientId) {
+    const db = nano.use('frameworks')
+    const doc = { _id: `test:${clientId}`, date: (new Date).toISOString()}
+    await db.insert(doc)
+  }
+
+  static getFrameworks() {
+    return new Promise((res, rej) => {
+      const db = nano.use('frameworks')
+      db.partitionedList('framework', { include_docs: true }).then(frameworkList =>
+        {
+          return res(frameworkList)
+        }).catch( err => res(err))
+    })
   }
 
   sendToAllMessage(message: string, id: string) {
@@ -64,8 +83,8 @@ class SSEService {
   }
 
   newClient(response: object) {
-    // const client = new Client(response, SSEService.getUlid())
-    const client = new Client(response, '01')
+    const client = new Client(response, SSEService.getUlid())
+    // const client = new Client(response, '01')
     SSEService.clients.set(client.id, client);
     return client;
   }
