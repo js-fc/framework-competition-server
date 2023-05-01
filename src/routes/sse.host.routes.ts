@@ -4,7 +4,6 @@ const express = require('express'),
   SSEHostService = require('../services/sse.host.service')
 
 router.use(async (req, res, next) => {
-  console.log(1)
   next()
 })
 

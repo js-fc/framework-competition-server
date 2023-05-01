@@ -7,7 +7,7 @@ class SSEClient {
 
     Init() {
         console.log("11111111111111111");
-        this.eventSource = new EventSource("http://localhost:7000/host")
+        this.eventSource = new EventSource("http://localhost:8080/sse/host")
         this.eventSource.onmessage = (event) => {
             console.log("123");
         };
@@ -27,7 +27,7 @@ class SSEClient {
 
         this.eventSource.addEventListener('test', event => {
             console.log("44444444444");
-            const test = JSON.parse(event.data);
+            //const test = JSON.parse(event.data);
             //test.frameworkId = test._id.split(':')[3];
             console.log(event.data);
         })
