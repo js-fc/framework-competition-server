@@ -1,31 +1,26 @@
-var EventSource = require('eventsource');
+//var EventSource = require('eventsource');
+const fs = require('fs'), spawn = require('child_process').spawn;
+EventSource = require('eventsource');
 class SSEClient {
     constructor() {
         this.connected = false;
     }
     Init() {
-        console.log("11111111111111111");
         this.eventSource = new EventSource("http://localhost:8080/sse/host");
         this.eventSource.onmessage = (event) => {
-            console.log("123");
         };
-        console.log("123");
         this.eventSource.addEventListener('hello', event => {
-            console.log("222222222222222");
             this.connected = true;
-            console.log(event);
         });
         this.eventSource.addEventListener('host', event => {
-            console.log("333333333333333");
-            //const data = JSON.parse(event.data);
-            //this.hostID = data.id;
-            console.log(event.data);
+            this.hostID = event.data;
         });
         this.eventSource.addEventListener('test', event => {
-            console.log("44444444444");
-            //const test = JSON.parse(event.data);
-            //test.frameworkId = test._id.split(':')[3];
-            console.log(event.data);
+            const data = event.data.split(':');
+            const test = data[0];
+            const framework = data[2];
+            //const progToOpen = spawn('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',[`https://js-fc.github.io/js-framework-competition/all.html?framework=${framework}&test=${test}`]);
+            const progToOpen = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe', [`https://js-fc.github.io/js-framework-competition/all.html?framework=${framework}&test=${test}`]);
         });
         this.eventSource.addEventListener('close', event => {
             const reason = JSON.parse(event.data);

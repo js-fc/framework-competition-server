@@ -39,9 +39,9 @@ class SSEController {
     )
 
 
-    taskQueue.forEach(framework => {
-      SSEService.sendToClientEventMessage(client, 'framework', framework)
-    })
+    // taskQueue.forEach(framework => {
+    //   SSEService.sendToClientEventMessage(client, 'framework', framework)
+    // })
 
     request.on('close', () => {
       console.log(`${client.id} Connection closed`);

@@ -35,9 +35,9 @@ class SSEController {
                 SSEService.sendToClientEventMessage(client, 'task', task);
                 SSEHostService.constructor.newTest();
             }));
-            taskQueue.forEach(framework => {
-                SSEService.sendToClientEventMessage(client, 'framework', framework);
-            });
+            // taskQueue.forEach(framework => {
+            //   SSEService.sendToClientEventMessage(client, 'framework', framework)
+            // })
             request.on('close', () => {
                 console.log(`${client.id} Connection closed`);
                 SSEService.deleteClient(client);
