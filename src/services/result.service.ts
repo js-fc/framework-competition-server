@@ -14,7 +14,7 @@ class ResultService {
 
   async createResult(data: object, resultUlid: string, frameworkUlid: string) {
     const db = nano.use('frameworks')
-    return db.insert(data, `result:${resultUlid}:framework:${frameworkUlid}`)
+    return db.insert(data, `${resultUlid}:framework:${frameworkUlid}`)
   }
 
   updateResult(data) {

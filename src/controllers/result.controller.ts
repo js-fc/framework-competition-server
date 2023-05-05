@@ -31,7 +31,7 @@ class ResultController {
     // SSEService.sendToClientEventMessage(b, 'task1', b.id)
     const clients = SSEService.constructor.getClient(req.params.resultId)
 
-    SSEService.sendToClientEventMessage(clients, 'result', clients.id)
+    SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
     return res.status(200).send({a: clients.id})
 
     //return res.status(200).send(result)

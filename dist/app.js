@@ -1,7 +1,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express'), app = express(), routes = require('./routes/index'), routesSSE = require('./routes/index.sse'), cors = require('cors');
 const host = 'localhost';
-const port = 8080;
+const port = 7000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

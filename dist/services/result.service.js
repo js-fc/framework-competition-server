@@ -20,7 +20,7 @@ class ResultService {
     createResult(data, resultUlid, frameworkUlid) {
         return __awaiter(this, void 0, void 0, function* () {
             const db = nano.use('frameworks');
-            return db.insert(data, `result:${resultUlid}:framework:${frameworkUlid}`);
+            return db.insert(data, `${resultUlid}:framework:${frameworkUlid}`);
         });
     }
     updateResult(data) {

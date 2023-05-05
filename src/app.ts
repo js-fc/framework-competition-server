@@ -8,7 +8,7 @@ const express = require('express'),
 
 
 const host = 'localhost'
-const port = 8080
+const port = 7000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

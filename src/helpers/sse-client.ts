@@ -9,7 +9,7 @@ class SSEClient {
     hostID: string
 
     Init() {
-        this.eventSource = new EventSource("http://localhost:8080/sse/host")
+        this.eventSource = new EventSource("http://localhost:7000/sse/host")
         this.eventSource.onmessage = (event) => {
 
         };
