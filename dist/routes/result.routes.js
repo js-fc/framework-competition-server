@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const express = require('express'), router = express.Router(), ResultController = require('../controllers/result.controller'), ResultService = require('../services/result.service');
 router.use((req, res, next) => __awaiter(this, void 0, void 0, function* () {
     //let data = await ResultService.getResult(req)
-    let data = 1;
-    if (data) {
-        req.result = data;
-        next();
-    }
-    else
-        return res
-            .status(500)
-            .send({ message: 'Error while getting result' });
+    //let data = 1
+    next();
+    // if (data) {
+    //   req.result = data
+    //   next()
+    // } else
+    //   return res
+    //     .status(500)
+    //     .send({ message: 'Error while getting result' })
 }));
 router
     .route('/:resultId/framework/:frameworkId')

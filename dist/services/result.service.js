@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const fs = require('fs'), nano = require('../couch-db/couch');
 class ResultService {
-    getResult(resultUlid) {
+    getResult(req) {
+        const resultUlid = req.params.resultId;
+        const frameworkUlid = req.params.frameworkId;
         return new Promise((resolve, reject) => {
             const db = nano.use('frameworks');
-            db.get('result:01GM37FBV3SS38SCAGFD0ZC3JY:framework:01GJFRHJ6M5DQX9AE0CXXC6H05').then(result => {
+            db.get(`${resultUlid}:framework:${frameworkUlid}`).then(result => {
                 return resolve(result);
             }).catch(err => resolve(err));
         });

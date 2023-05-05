@@ -31,12 +31,13 @@ class SSEController {
         // console.log(JSON.stringify(framework))
         taskQueue.push(`${client.id}:${framework.id}`)
       });
-    }).then( () =>
+    }).then( () => {
+      SSEService.sendToClientEventMessage(client, 'test', client.id)
       taskQueue.forEach(task => {
           SSEService.sendToClientEventMessage(client, 'task', task)
           SSEHostService.constructor.newTest()
       })
-    )
+    })
 
 
     // taskQueue.forEach(framework => {

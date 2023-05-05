@@ -19,6 +19,7 @@ class SSEHostService {
         const host = SSEHostService.hostQueue[0];
         if (!host)
             return;
+        console.log('New Test');
         SSEHostService.hostQueue.shift();
         taskQueue.shift();
         SSEHostService.tests.set(task, host);

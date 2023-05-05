@@ -10,21 +10,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const ResultService = require('../services/result.service'), SSEService = require('../services/sse.service');
 class ResultController {
     getResult(req, res) {
-        if (req.query.id) {
-            if (req.result.hasOwnProperty(req.query.id))
-                return res
-                    .status(200)
-                    .send({ data: req.result[req.query.id] });
-            else
+        return __awaiter(this, void 0, void 0, function* () {
+            req.result = yield ResultService.getResult(req);
+            if (req.query.id) {
+                if (req.result.hasOwnProperty(req.query.id))
+                    return res
+                        .status(200)
+                        .send({ data: req.result[req.query.id] });
+                else
+                    return res
+                        .status(404)
+                        .send({ message: 'Host not found.' });
+            }
+            else if (!req.result)
                 return res
                     .status(404)
-                    .send({ message: 'Host not found.' });
-        }
-        else if (!req.result)
-            return res
-                .status(404)
-                .send({ message: 'Result not found.' });
-        res.status(200).send(req.params.resultId);
+                    .send({ message: 'Result not found.' });
+            res.status(200).send(req.result);
+        });
     }
     createResult(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,6 +37,7 @@ class ResultController {
             // let b = clients.get('01')
             // SSEService.sendToClientEventMessage(b, 'task1', b.id)
             const clients = SSEService.constructor.getClient(req.params.resultId);
+            //SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
             SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId);
             return res.status(200).send({ a: clients.id });
             //return res.status(200).send(result)

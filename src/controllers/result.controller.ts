@@ -4,7 +4,8 @@ const ResultService = require('../services/result.service'),
 import Client = require('../helpers/client')
 
 class ResultController {
-  getResult(req, res) {
+  async getResult(req, res) {
+    req.result = await ResultService.getResult(req)
     if (req.query.id) {
       if (req.result.hasOwnProperty(req.query.id))
         return res
@@ -18,7 +19,7 @@ class ResultController {
       return res
         .status(404)
         .send({ message: 'Result not found.' })
-    res.status(200).send(req.params.resultId)
+    res.status(200).send(req.result)
   }
 
   async createResult(req, res) {
@@ -31,6 +32,7 @@ class ResultController {
     // SSEService.sendToClientEventMessage(b, 'task1', b.id)
     const clients = SSEService.constructor.getClient(req.params.resultId)
 
+    //SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
     SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
     return res.status(200).send({a: clients.id})
 

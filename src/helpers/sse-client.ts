@@ -27,7 +27,7 @@ class SSEClient {
             const test = data[0];
             const framework = data[2];
             //const progToOpen = spawn('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',[`https://js-fc.github.io/js-framework-competition/all.html?framework=${framework}&test=${test}`]);
-            const progToOpen = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',[`https://js-fc.github.io/js-framework-competition/all.html?framework=${framework}&test=${test}`]);
+            const progToOpen = spawn('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',[`https://js-fc.github.io/js-framework-competition/test.html?framework=${framework}&test=${test}`]);
         })
 
         this.eventSource.addEventListener('close', event => {

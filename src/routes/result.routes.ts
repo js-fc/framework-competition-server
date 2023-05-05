@@ -5,15 +5,15 @@ const express = require('express'),
 
 router.use(async (req, res, next) => {
   //let data = await ResultService.getResult(req)
-  let data = 1
-  
-  if (data) {
-    req.result = data
-    next()
-  } else
-    return res
-      .status(500)
-      .send({ message: 'Error while getting result' })
+  //let data = 1
+  next()
+  // if (data) {
+  //   req.result = data
+  //   next()
+  // } else
+  //   return res
+  //     .status(500)
+  //     .send({ message: 'Error while getting result' })
 })
 
 router
