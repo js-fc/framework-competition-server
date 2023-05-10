@@ -9,6 +9,7 @@ class SSEHostService {
   static  hosts = new Map()
   static  hostQueue = []
   static  tests = new Map()
+  static calibration = new Map()
 
   static newTest() {
     const task = taskQueue[0]
@@ -20,6 +21,14 @@ class SSEHostService {
     if (!host)
       return
 
+
+    if (!SSEHostService.calibration.get(host))
+    {
+      SSEHostService.hostQueue.shift()
+      SSEHostService.calibration.set(host.id, host)
+      SSEHostService.sendToHostEventMessage(host, 'calibration', `${host.id}:01GXVG6BDA4JP0ZWH9CT832BAN`)
+      return
+    }
     console.log('New Test')
 
     SSEHostService.hostQueue.shift()
@@ -27,6 +36,12 @@ class SSEHostService {
 
     SSEHostService.tests.set(task, host)
     SSEHostService.sendToHostEventMessage(host, 'test', task)
+  }
+
+  static freeHost(task) {
+    const host = SSEHostService.tests.get(task)
+    const a = SSEHostService.tests.delete(task)
+    SSEHostService.hostQueue.push(host)
   }
 
   static getUlid() {

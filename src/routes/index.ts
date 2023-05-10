@@ -12,7 +12,8 @@ const express = require('express'),
     testRoutes = require('./test.routes'),
     frameworksRoutes = require('./frameworks.routes'),
     frameworkRoutes = require('./framework.routes'),
-    resultRoutes = require('./result.routes')
+    resultRoutes = require('./result.routes'),
+    calibrationRoutes = require('./calibration.routes')
 
 router.use('/users', usersRoutes)
 router.use('/hosts', hostsRoutes)
@@ -24,5 +25,6 @@ router.use('/tests', testsRoutes)
 router.use('/test', testRoutes)
 router.use('/task', taskRoutes)
 router.use('/result', resultRoutes)
+router.use('/calibration', calibrationRoutes)
 
 export = router

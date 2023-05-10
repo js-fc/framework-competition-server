@@ -25,6 +25,14 @@ class SSEHostService {
         SSEHostService.tests.set(task, host);
         SSEHostService.sendToHostEventMessage(host, 'test', task);
     }
+    static freeHost(task) {
+        const host = SSEHostService.tests.get(task);
+        const a = SSEHostService.tests.delete(task);
+        console.log(task);
+        console.log(host);
+        console.log(a);
+        SSEHostService.hostQueue.push(host);
+    }
     static getUlid() {
         return ULID.ulid();
     }

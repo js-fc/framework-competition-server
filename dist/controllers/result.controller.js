@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const ResultService = require('../services/result.service'), SSEService = require('../services/sse.service');
+const ResultService = require('../services/result.service'), SSEService = require('../services/sse.service'), SSEHostService = require('../services/sse.host.service');
 class ResultController {
     getResult(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -39,6 +39,8 @@ class ResultController {
             const clients = SSEService.constructor.getClient(req.params.resultId);
             //SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
             SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId);
+            SSEHostService.constructor.freeHost(`${req.params.resultId}:framework:${req.params.frameworkId}`);
+            SSEHostService.constructor.newTest();
             return res.status(200).send({ a: clients.id });
             //return res.status(200).send(result)
             if (req.body.user && req.body.user.id) {

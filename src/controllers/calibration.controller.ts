@@ -1,46 +1,46 @@
-const ResultService = require('../services/result.service'),
+const CalibrationService = require('../services/calibration.service'),
   SSEService = require('../services/sse.service'),
   SSEHostService = require('../services/sse.host.service')
 
 import Client = require('../helpers/client')
 
-class ResultController {
-  async getResult(req, res) {
-    req.result = await ResultService.getResult(req)
+class CalibrationController {
+  async getCalibration(req, res) {
+    req.calibration = await CalibrationService.getCalibration(req)
     if (req.query.id) {
-      if (req.result.hasOwnProperty(req.query.id))
+      if (req.calibration.hasOwnProperty(req.query.id))
         return res
           .status(200)
-          .send({ data: req.result[req.query.id] })
+          .send({ data: req.calibration[req.query.id] })
       else
         return res
           .status(404)
           .send({ message: 'Host not found.' })
-    } else if (!req.result)
+    } else if (!req.calibration)
       return res
         .status(404)
-        .send({ message: 'Result not found.' })
-    res.status(200).send(req.result)
+        .send({ message: 'Calibration not found.' })
+    res.status(200).send(req.calibration)
   }
 
-  async createResult(req, res) {
-    let result = await ResultService.createResult(req.body, req.params.resultId, req.params.frameworkId);
+  async createCalibration(req, res) {
+    let calibration = await CalibrationService.createCalibration(req.body, req.params.calibrationId, req.params.frameworkId);
 
-    // const client: Client = SSEService.constructor.getClient(req.params.resultId)
+    // const client: Client = SSEService.constructor.getClient(req.params.calibrationId)
     // const clients = SSEService.constructor.getClients()
     // let b = clients.get('01')
 
     // SSEService.sendToClientEventMessage(b, 'task1', b.id)
-    
-    const clients = SSEService.constructor.getClient(req.params.resultId)
 
-    //SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
-    SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
-    SSEHostService.constructor.freeHost(`${req.params.resultId}:framework:${req.params.frameworkId}`)
+    const clients = SSEService.constructor.getClient(req.params.calibrationId)
+
+    //SSEService.sendToClientEventMessage(clients, 'calibration', req.params.frameworkId)
+    SSEService.sendToClientEventMessage(clients, 'calibration', req.params.frameworkId)
+    SSEHostService.constructor.freeHost(`${req.params.calibrationId}:framework:${req.params.frameworkId}`)
     SSEHostService.constructor.newTest()
     return res.status(200).send({a: clients.id})
 
-    //return res.status(200).send(result)
+    //return res.status(200).send(calibration)
     if (req.body.user && req.body.user.id) {
       if (req.users.hasOwnProperty(req.body.user.id))
         return res
@@ -49,9 +49,9 @@ class ResultController {
 
       req.users[req.body.user.id] = req.body.user
 
-      let result = await ResultService.createUser(req.users)
+      let calibration = await CalibrationService.createUser(req.users)
 
-      if (result) return res.status(200).send(result)
+      if (calibration) return res.status(200).send(calibration)
       else
         return res
           .status(500)
@@ -62,7 +62,7 @@ class ResultController {
         .send({ message: 'Bad request.' })
   }
 
-  async updateResult(req, res) {
+  async updateCalibration(req, res) {
     if (req.body.user && req.body.user.id) {
       if (!req.users.hasOwnProperty(req.body.user.id))
         return res
@@ -71,9 +71,9 @@ class ResultController {
 
       req.users[req.body.user.id] = req.body.user
 
-      let result = await ResultService.updateUser(req.users)
+      let calibration = await CalibrationService.updateUser(req.users)
 
-      if (result) return res.status(200).send(result)
+      if (calibration) return res.status(200).send(calibration)
       else
         return res
           .status(500)
@@ -84,16 +84,16 @@ class ResultController {
         .send({ message: 'Bad request.' })
   }
 
-  async deleteResult(req, res) {
+  async deleteCalibration(req, res) {
     if (req.query.id) {
       if (req.users.hasOwnProperty(req.query.id)) {
         delete req.users[req.query.id]
 
-        let result = await ResultService.deleteUser(
+        let calibration = await CalibrationService.deleteUser(
           req.users
         )
 
-        if (result) return res.status(200).send(result)
+        if (calibration) return res.status(200).send(calibration)
         else
           return res
             .status(500)
@@ -109,4 +109,4 @@ class ResultController {
   }
 }
 
-export = new ResultController()
+export = new CalibrationController()
