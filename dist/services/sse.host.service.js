@@ -19,18 +19,28 @@ class SSEHostService {
         const host = SSEHostService.hostQueue[0];
         if (!host)
             return;
-        console.log('New Test');
         SSEHostService.hostQueue.shift();
         taskQueue.shift();
         SSEHostService.tests.set(task, host);
         SSEHostService.sendToHostEventMessage(host, 'test', task);
     }
-    static freeHost(task) {
-        const host = SSEHostService.tests.get(task);
-        const a = SSEHostService.tests.delete(task);
-        console.log(task);
-        console.log(host);
-        console.log(a);
+    static hostCalibration(host) {
+        const frameworkId = '01GXVG6BDA4JP0ZWH9CT832BAN';
+        const taskId = `${host.id}:framework:${frameworkId}`;
+        SSEHostService.calibrationPull.set(taskId, host);
+        SSEHostService.tests.set(taskId, host);
+        console.log('test', taskId);
+        SSEHostService.sendToHostEventMessage(host, 'test', taskId);
+    }
+    static freeHost(testId, frameworkId) {
+        const taskId = `${testId}:framework:${frameworkId}`;
+        const host = SSEHostService.tests.get(taskId);
+        if (host.id === testId) {
+            SSEHostService.tests.delete(taskId);
+        }
+        else {
+            SSEHostService.calibrationPull.delete(taskId);
+        }
         SSEHostService.hostQueue.push(host);
     }
     static getUlid() {
@@ -98,8 +108,6 @@ class SSEHostService {
     }
     newHost(response) {
         const host = new Host(response, SSEHostService.getUlid());
-        // const host = new Host(response, '01')
-        SSEHostService.hostQueue.push(host);
         SSEHostService.hosts.set(host.id, host);
         return host;
     }
@@ -113,5 +121,6 @@ class SSEHostService {
 SSEHostService.hosts = new Map();
 SSEHostService.hostQueue = [];
 SSEHostService.tests = new Map();
+SSEHostService.calibrationPull = new Map();
 module.exports = new SSEHostService();
 //# sourceMappingURL=sse.host.service.js.map

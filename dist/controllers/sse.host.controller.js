@@ -30,7 +30,7 @@ class SSEHostController {
             SSEHostService.sendToHostRetry(host, '5000');
             SSEHostService.constructor.sendToHostEventMessage(host, 'hello', 'Hello, server');
             SSEHostService.constructor.sendToHostEventMessage(host, 'host', host.id);
-            SSEHostService.constructor.newTest();
+            SSEHostService.constructor.hostCalibration(host);
             request.on('close', () => {
                 console.log(`${host.id} Connection closed`);
                 SSEHostService.deleteHost(host);

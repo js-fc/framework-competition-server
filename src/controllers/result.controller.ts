@@ -24,21 +24,35 @@ class ResultController {
   }
 
   async createResult(req, res) {
-    let result = await ResultService.createResult(req.body, req.params.resultId, req.params.frameworkId);
+    const resultId = req.params.resultId;
+    const frameworkId = req.params.frameworkId;
+    const resultData = req.body;
+    console.log(JSON.stringify(resultData));
+    const taskId = `${resultId}:framework:${frameworkId}`
+    console.log('taskId', taskId)
+    const host = SSEHostService.constructor.tests.get(taskId)
+    if (host.id === resultId) {
+      host.calibration = resultData.rate;
+    }
+    else {
+      resultData.base = host.calibration;
+      let result = await ResultService.createResult(resultData, resultId, frameworkId);
+      const clients = SSEService.constructor.getClient(resultId)
+      SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
+    }
+    console.log(JSON.stringify(resultData));
 
     // const client: Client = SSEService.constructor.getClient(req.params.resultId)
     // const clients = SSEService.constructor.getClients()
     // let b = clients.get('01')
 
     // SSEService.sendToClientEventMessage(b, 'task1', b.id)
-    
-    const clients = SSEService.constructor.getClient(req.params.resultId)
+
 
     //SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
-    SSEService.sendToClientEventMessage(clients, 'result', req.params.frameworkId)
-    SSEHostService.constructor.freeHost(`${req.params.resultId}:framework:${req.params.frameworkId}`)
+    SSEHostService.constructor.freeHost(resultId, frameworkId)
     SSEHostService.constructor.newTest()
-    return res.status(200).send({a: clients.id})
+    return res.status(200).send({result: 'Ок'})
 
     //return res.status(200).send(result)
     if (req.body.user && req.body.user.id) {

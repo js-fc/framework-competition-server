@@ -36,7 +36,8 @@ class SSEHostController {
 
     SSEHostService.constructor.sendToHostEventMessage(host, 'host', host.id)
 
-    SSEHostService.constructor.newTest()
+
+    SSEHostService.constructor.hostCalibration(host)
 
     request.on('close', () => {
       console.log(`${host.id} Connection closed`);
