@@ -21,29 +21,18 @@ class SSEController {
     SSEService.sendToClientEventMessage(client, 'hello', 'Hello, friend')
     SSEService.sendToClientEventMessage(client, 'test', client.id)
 
-    const clients = SSEService.constructor.getClients()
-    let b = clients.get(client.id)
-
     SSEService.constructor.createTest(client.id) // Создаем тест
 
     SSEService.constructor.getFrameworks().then( result => {
-      result.rows.forEach(framework => {
-        // console.log(JSON.stringify(framework))
+      result.rows.forEach(framework =>
         taskQueue.push(`${client.id}:${framework.id}`)
-      });
+      );
     }).then( () => {
-      SSEService.sendToClientEventMessage(client, 'test', client.id)
       taskQueue.forEach(task => {
           SSEService.sendToClientEventMessage(client, 'task', task)
           SSEHostService.constructor.newTest()
       })
     })
-
-
-    // taskQueue.forEach(framework => {
-    //   SSEService.sendToClientEventMessage(client, 'framework', framework)
-    // })
-
     request.on('close', () => {
       console.log(`${client.id} Connection closed`);
       SSEService.deleteClient(client);
